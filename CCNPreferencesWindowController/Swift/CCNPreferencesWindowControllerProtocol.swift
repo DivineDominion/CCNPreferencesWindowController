@@ -32,7 +32,7 @@
 import AppKit
 
 /// A protocol for preference panels
-@objc protocol CCNPreferencesWindowControllerProtocol {
+@objc public protocol CCNPreferencesWindowControllerProtocol {
     
     /// The identifier of the preference panel.
     static var preferencesIdentifier: String { get }

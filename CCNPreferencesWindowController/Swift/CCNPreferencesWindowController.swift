@@ -44,14 +44,14 @@ let escapeKey = 53
 //
 //  A protocol adopted by classes that handle icon family data.
 //
-class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NSWindowDelegate {
+public class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NSWindowDelegate {
     
     fileprivate var toolbar: NSToolbar?
     fileprivate var segmentedControl: NSSegmentedControl?
     fileprivate var toolbarDefaultItemIdentifiers: [String]?
     
     /// The preference panels this preferences window controller displays.
-    var viewControllers = [CCNPreferencesWindowControllerProtocol]() {
+    public var viewControllers = [CCNPreferencesWindowControllerProtocol]() {
         didSet {
             setupToolbar()
         }
@@ -66,7 +66,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     // MARK: Constructors
     
     /// Initialize a new preferences window controller.
-    init() {
+    public init() {
         
         super.init(window: nil)
 
@@ -78,7 +78,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     }
     
     /// Initializes a new preferences window controller with the given coder
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         
         super.init(coder: coder)
         
@@ -97,7 +97,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     ///
     ///  The value defaults to false.
     ///
-    var titleAppearsTransparent = false {
+    public var titleAppearsTransparent = false {
         didSet {
             
             window?.titlebarAppearsTransparent = titleAppearsTransparent
@@ -110,7 +110,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     ///
     ///  The value defaults to true.
     ///
-    var showToolbarSeparator = true {
+    public var showToolbarSeparator = true {
         didSet {
             
             window?.toolbar?.showsBaselineSeparator = showToolbarSeparator
@@ -123,7 +123,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     //
     ///  The value defaults to true.
     ///
-    var showToolbarWithSingleViewController = true
+    public var showToolbarWithSingleViewController = true
     
     ///
     ///  Determines whether or not the toolbar is presented as a segmented control or as a genuine toolbar with
@@ -131,7 +131,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     ///
     ///  The latter's the default behaviour.
     ///
-    var showToolbarItemsAsSegmentedControl = false {
+    public var showToolbarItemsAsSegmentedControl = false {
         didSet {
             if showToolbarItemsAsSegmentedControl != oldValue {
                 toolbarDefaultItemIdentifiers = nil
@@ -147,7 +147,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     ///
     ///  Defaults to true.
     ///
-    var centerToolbarItems = true {
+    public var centerToolbarItems = true {
         didSet {
             if centerToolbarItems != oldValue {
                 toolbarDefaultItemIdentifiers = nil
@@ -162,7 +162,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     ///
     ///  The value defaults to false.
     ///
-    var allowsVibrancy = false {
+    public var allowsVibrancy = false {
         didSet {
             if activeViewController != nil {
                 activateViewController(activeViewController!, animate: true)
@@ -176,7 +176,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     
     // MARK: Show & Hide Preferences Window
 
-    func showPreferencesWindow<T : CCNPreferencesWindowControllerProtocol>(selectedPreferencesOfType preferencesType: T.Type) {
+    public func showPreferencesWindow<T : CCNPreferencesWindowControllerProtocol>(selectedPreferencesOfType preferencesType: T.Type) {
 
         let viewController = viewControllerWithIdentifier(preferencesType.preferencesIdentifier)
         showPreferencesWindow(selectViewController: viewController)
@@ -189,7 +189,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     /// - parameter selectViewController: Segment to show initially. Defaults to `nil`, 
     ///   which shows the first one.
     ///
-    func showPreferencesWindow(selectViewController selectedViewController: CCNPreferencesWindowControllerProtocol? = nil) {
+    public func showPreferencesWindow(selectViewController selectedViewController: CCNPreferencesWindowControllerProtocol? = nil) {
         
         guard let window = window else { preconditionFailure("window not set up") }
 
@@ -237,7 +237,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     ///
     ///  Hide the preferences window.
     ///
-    func dismissPreferencesWindow() {
+    public func dismissPreferencesWindow() {
         
         close()
         
@@ -400,7 +400,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
     
     // MARK: Toolbar Delegate Protocol
     
-    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: String, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+    public func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: String, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         
         if itemIdentifier == NSToolbarFlexibleSpaceItemIdentifier {
             return nil
@@ -442,7 +442,7 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
         
     }
     
-    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
         
         if toolbarDefaultItemIdentifiers == nil && viewControllers.count > 0 {
             
@@ -477,13 +477,13 @@ class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NS
         
     }
     
-    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
         
         return toolbarDefaultItemIdentifiers(toolbar)
         
     }
     
-    func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    public func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
         
         return toolbarDefaultItemIdentifiers(toolbar)
         

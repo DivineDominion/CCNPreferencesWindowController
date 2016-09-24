@@ -7,17 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5087BC621CF824C9009915EB /* CCNPreferencesWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5087BC611CF824C9009915EB /* CCNPreferencesWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5087BC6A1CF8252F009915EB /* CCNPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5087BC691CF8252F009915EB /* CCNPreferencesWindowController.m */; };
-		5087BC6C1CF826C7009915EB /* CCNPreferencesWindowControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5087BC6B1CF826C7009915EB /* CCNPreferencesWindowControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		507FDBA81D96B9D600FE07E7 /* CCNPreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FDBA61D96B9D600FE07E7 /* CCNPreferencesWindowController.swift */; };
+		507FDBA91D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FDBA71D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		507FDBA61D96B9D600FE07E7 /* CCNPreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCNPreferencesWindowController.swift; path = Swift/CCNPreferencesWindowController.swift; sourceTree = "<group>"; };
+		507FDBA71D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCNPreferencesWindowControllerProtocol.swift; path = Swift/CCNPreferencesWindowControllerProtocol.swift; sourceTree = "<group>"; };
 		5087BC5E1CF824C9009915EB /* CCNPreferencesWindowController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CCNPreferencesWindowController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5087BC611CF824C9009915EB /* CCNPreferencesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCNPreferencesWindowController.h; path = ObjC/CCNPreferencesWindowController.h; sourceTree = "<group>"; };
 		5087BC631CF824C9009915EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ObjC/Info.plist; sourceTree = "<group>"; };
-		5087BC691CF8252F009915EB /* CCNPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCNPreferencesWindowController.m; path = ObjC/CCNPreferencesWindowController.m; sourceTree = "<group>"; };
-		5087BC6B1CF826C7009915EB /* CCNPreferencesWindowControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNPreferencesWindowControllerProtocol.h; path = ObjC/CCNPreferencesWindowControllerProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,9 +48,8 @@
 		5087BC601CF824C9009915EB /* CCNPreferencesWindowController */ = {
 			isa = PBXGroup;
 			children = (
-				5087BC611CF824C9009915EB /* CCNPreferencesWindowController.h */,
-				5087BC691CF8252F009915EB /* CCNPreferencesWindowController.m */,
-				5087BC6B1CF826C7009915EB /* CCNPreferencesWindowControllerProtocol.h */,
+				507FDBA61D96B9D600FE07E7 /* CCNPreferencesWindowController.swift */,
+				507FDBA71D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift */,
 				5087BC631CF824C9009915EB /* Info.plist */,
 			);
 			path = CCNPreferencesWindowController;
@@ -65,8 +62,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5087BC6C1CF826C7009915EB /* CCNPreferencesWindowControllerProtocol.h in Headers */,
-				5087BC621CF824C9009915EB /* CCNPreferencesWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +97,7 @@
 				TargetAttributes = {
 					5087BC5D1CF824C9009915EB = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -137,7 +133,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5087BC6A1CF8252F009915EB /* CCNPreferencesWindowController.m in Sources */,
+				507FDBA91D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift in Sources */,
+				507FDBA81D96B9D600FE07E7 /* CCNPreferencesWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,7 +179,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -224,7 +221,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -235,6 +232,7 @@
 		5087BC671CF824C9009915EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -247,12 +245,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoanaut.CCNPreferencesWindowController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		5087BC681CF824C9009915EB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -265,6 +266,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoanaut.CCNPreferencesWindowController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
