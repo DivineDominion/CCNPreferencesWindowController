@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		507FDBA81D96B9D600FE07E7 /* CCNPreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FDBA61D96B9D600FE07E7 /* CCNPreferencesWindowController.swift */; };
-		507FDBA91D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FDBA71D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift */; };
+		507FDBA81D96B9D600FE07E7 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FDBA61D96B9D600FE07E7 /* PreferencesWindowController.swift */; };
+		507FDBA91D96B9D600FE07E7 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507FDBA71D96B9D600FE07E7 /* PreferencesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		507FDBA61D96B9D600FE07E7 /* CCNPreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCNPreferencesWindowController.swift; path = Swift/CCNPreferencesWindowController.swift; sourceTree = "<group>"; };
-		507FDBA71D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCNPreferencesWindowControllerProtocol.swift; path = Swift/CCNPreferencesWindowControllerProtocol.swift; sourceTree = "<group>"; };
+		507FDBA61D96B9D600FE07E7 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesWindowController.swift; path = Swift/PreferencesWindowController.swift; sourceTree = "<group>"; };
+		507FDBA71D96B9D600FE07E7 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesViewController.swift; path = Swift/PreferencesViewController.swift; sourceTree = "<group>"; };
 		5087BC5E1CF824C9009915EB /* CCNPreferencesWindowController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CCNPreferencesWindowController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5087BC631CF824C9009915EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ObjC/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,8 +48,8 @@
 		5087BC601CF824C9009915EB /* CCNPreferencesWindowController */ = {
 			isa = PBXGroup;
 			children = (
-				507FDBA61D96B9D600FE07E7 /* CCNPreferencesWindowController.swift */,
-				507FDBA71D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift */,
+				507FDBA61D96B9D600FE07E7 /* PreferencesWindowController.swift */,
+				507FDBA71D96B9D600FE07E7 /* PreferencesViewController.swift */,
 				5087BC631CF824C9009915EB /* Info.plist */,
 			);
 			path = CCNPreferencesWindowController;
@@ -92,12 +92,12 @@
 		5087BC551CF824C9009915EB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Christian Tietze";
 				TargetAttributes = {
 					5087BC5D1CF824C9009915EB = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0920;
 					};
 				};
 			};
@@ -133,8 +133,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507FDBA91D96B9D600FE07E7 /* CCNPreferencesWindowControllerProtocol.swift in Sources */,
-				507FDBA81D96B9D600FE07E7 /* CCNPreferencesWindowController.swift in Sources */,
+				507FDBA91D96B9D600FE07E7 /* PreferencesViewController.swift in Sources */,
+				507FDBA81D96B9D600FE07E7 /* PreferencesWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,14 +150,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -200,14 +206,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -252,7 +264,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -273,7 +285,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cocoanaut.CCNPreferencesWindowController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

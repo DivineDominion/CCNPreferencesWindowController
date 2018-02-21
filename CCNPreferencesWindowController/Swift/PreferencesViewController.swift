@@ -1,5 +1,5 @@
 //
-//  CCNPreferencesWindowControllerProtocol.swift
+//  PreferencesViewController.swift
 //
 //  Original Objective-C code created by Frank Gregor on 16/01/15, adapted by Bruno Vandekerkhove on 30/08/15.
 //  Copyright (c) 2015 cocoa:naut. All rights reserved.
@@ -31,11 +31,14 @@
 
 import AppKit
 
+@available(*, deprecated: 1.0, renamed: "PreferencesViewController")
+public typealias CCNPreferencesWindowControllerProtocol = PreferencesViewController
+
 /// A protocol for preference panels
-@objc public protocol CCNPreferencesWindowControllerProtocol {
+@objc public protocol PreferencesViewController {
     
     /// The identifier of the preference panel.
-    static var preferencesIdentifier: String { get }
+    static var preferencesIdentifier: NSToolbarItem.Identifier { get }
     
     /// The title of the preference panel.
     static var preferencesTitle: String { get }

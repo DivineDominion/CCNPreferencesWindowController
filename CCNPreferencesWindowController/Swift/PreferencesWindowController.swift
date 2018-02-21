@@ -1,5 +1,5 @@
 //
-//  CCNPreferencesWindowController.swift
+//  PreferencesWindowController.swift
 //
 //  Original Objective-C code created by Frank Gregor on 16/01/15, adapted by Bruno Vandekerkhove on 30/08/15.
 //  Copyright (c) 2015 cocoa:naut. All rights reserved.
@@ -31,33 +31,42 @@
 
 import AppKit
 
-let CCNPreferencesToolbarIdentifier = "PreferencesMainToolbar"
-let CCNPreferencesToolbarSegmentedControlIdentifier = "PreferencesToolbarSegmentedControl"
+extension NSToolbar.Identifier {
+    static var preferencesToolbar: NSToolbar.Identifier { return NSToolbar.Identifier(rawValue: "CCNPreferencesMainToolbar") }
+}
+
+extension NSToolbarItem.Identifier {
+    static var preferencesSegmentedControl: NSToolbarItem.Identifier { return NSToolbarItem.Identifier(rawValue: "CCNPreferencesToolbarSegmentedControl") }
+}
+
+extension NSUserInterfaceItemIdentifier {
+    static var preferencesToolbarSegmentedControl: NSUserInterfaceItemIdentifier { return NSUserInterfaceItemIdentifier("CCNPreferencesToolbarSegmentedControl")}
+}
+
 let CCNPreferencesWindowFrameAutoSaveName = "PreferencesWindowFrameAutoSaveName"
 let CCNPreferencesDefaultWindowRect = NSMakeRect(0, 0, 420, 230)
-let CCNPreferencesDefaultTitle = "PreferencesWindow: default window title with segmented control in toolbar"
 let CCNPreferencesToolbarSegmentedControlItemInset = NSMakeSize(36, 12)
 let escapeKey = 53
 
 // MARK: - Preferences Window Controller
 
-//
-//  A protocol adopted by classes that handle icon family data.
-//
-public class CCNPreferencesWindowController : NSWindowController, NSToolbarDelegate, NSWindowDelegate {
+@available(*, deprecated: 1.0, renamed: "PreferencesWindowController")
+public typealias CCNPreferencesWindowController = PreferencesWindowController
+
+public class PreferencesWindowController : NSWindowController, NSToolbarDelegate, NSWindowDelegate {
     
     fileprivate var toolbar: NSToolbar?
     fileprivate var segmentedControl: NSSegmentedControl?
-    fileprivate var toolbarDefaultItemIdentifiers: [String]?
+    fileprivate var toolbarDefaultItemIdentifiers: [NSToolbarItem.Identifier]?
     
     /// The preference panels this preferences window controller displays.
-    public var viewControllers = [CCNPreferencesWindowControllerProtocol]() {
+    public var viewControllers = [PreferencesViewController]() {
         didSet {
             setupToolbar()
         }
     }
     
-    fileprivate var activeViewController: CCNPreferencesWindowControllerProtocol?
+    fileprivate var activeViewController: PreferencesViewController?
     
     ////////////////////////////////////////////////////////////////////////////////
     /// @name Constructors
@@ -70,8 +79,8 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         
         super.init(window: nil)
 
-        let styleMask: NSWindowStyleMask = [.titled, .closable, .miniaturizable, .unifiedTitleAndToolbar]
-        window = CCNPreferencesWindow(contentRect: CCNPreferencesDefaultWindowRect, styleMask: styleMask, backing: .buffered, defer: true)
+        let styleMask: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .unifiedTitleAndToolbar]
+        window = PreferencesWindow(contentRect: CCNPreferencesDefaultWindowRect, styleMask: styleMask, backing: .buffered, defer: true)
         
         window?.isMovableByWindowBackground = true
 
@@ -176,41 +185,48 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
     
     // MARK: Show & Hide Preferences Window
 
+    @available(*, deprecated: 1.0, renamed: "showPreferencesWindow(toolbarItemIdentifier:)")
     public func showPreferencesWindow(preferencesIdentifier: String) {
 
-        let viewController = viewControllerWithIdentifier(preferencesIdentifier)
-        showPreferencesWindow(selectViewController: viewController)
+        showPreferencesWindow(toolbarItemIdentifier: NSToolbarItem.Identifier(rawValue: preferencesIdentifier))
+    }
+
+    public func showPreferencesWindow(toolbarItemIdentifier: NSToolbarItem.Identifier) {
+
+        showPreferencesWindow(selectingViewController: viewController(toolbarItemIdentifier: toolbarItemIdentifier))
     }
 
     ///
     ///  Show the preferences window.
     ///
-    /// - parameter selectViewController: Segment to show initially. Defaults to `nil`, 
+    /// - parameter selectingViewController: Segment to show initially. Defaults to `nil`,
     ///   which shows the first one.
     ///
-    public func showPreferencesWindow(selectViewController selectedViewController: CCNPreferencesWindowControllerProtocol? = nil) {
+    public func showPreferencesWindow(selectingViewController viewController: PreferencesViewController? = nil) {
         
         guard let window = window else { preconditionFailure("window not set up") }
 
         guard !window.isVisible else {
             showWindow(self)
-            selectInitialPreferencesViewController(selectViewController: selectedViewController)
+            selectInitialPreferencesViewController(viewController)
             return
         }
 
         window.alphaValue = 0.0
         showWindow(self)
         window.makeKeyAndOrderFront(self)
-        NSApplication.shared().activate(ignoringOtherApps: true)
+        NSApplication.shared.activate(ignoringOtherApps: true)
 
-        selectInitialPreferencesViewController(selectViewController: selectedViewController)
+        selectInitialPreferencesViewController(viewController)
 
         window.center()
         window.alphaValue = 1.0
         
     }
 
-    private func selectInitialPreferencesViewController(selectViewController selectedViewController: CCNPreferencesWindowControllerProtocol? = nil) {
+    private func selectInitialPreferencesViewController(_ viewController: PreferencesViewController? = nil) {
+
+        guard !viewControllers.isEmpty else { return }
 
         if let toolbar = window?.toolbar {
 
@@ -220,21 +236,11 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
                 toolbarDefaultItemIdentifiers.count > 0 {
                 toolbar.selectedItemIdentifier = toolbarDefaultItemIdentifiers[(centerToolbarItems ? 1 : 0)]
             }
-
         }
 
-        let initialViewController: CCNPreferencesWindowControllerProtocol = {
-
-            if let selectedViewController = selectedViewController {
-                return selectedViewController
-            }
-
-            if let activeViewController = activeViewController {
-                return activeViewController
-            }
-
-            return viewControllers[0]
-        }()
+        let initialViewController = viewController
+            ?? activeViewController
+            ?? viewControllers[0]
 
         activateViewController(initialViewController, animate: false)
     }
@@ -246,7 +252,6 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
     public func dismissPreferencesWindow() {
         
         close()
-        
     }
     
     // MARK: Private functions
@@ -257,32 +262,26 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         toolbar = nil
         toolbarDefaultItemIdentifiers = nil
         
-        if showToolbarWithSingleViewController || showToolbarItemsAsSegmentedControl || viewControllers.count > 1 {
+        guard showToolbarWithSingleViewController || showToolbarItemsAsSegmentedControl || !viewControllers.isEmpty else { return }
             
-            toolbar = NSToolbar(identifier: CCNPreferencesToolbarIdentifier)
-            
-            if showToolbarItemsAsSegmentedControl {
-                
-                toolbar?.allowsUserCustomization = false
-                toolbar?.autosavesConfiguration = false
-                toolbar?.displayMode = .iconOnly
-                
-                setupSegmentedControl()
-                
-            }
-            else {
-                
-                toolbar?.allowsUserCustomization = true
-                toolbar?.autosavesConfiguration = true
-                
-            }
-            
-            toolbar?.showsBaselineSeparator = showToolbarSeparator
-            toolbar?.delegate = self
-            window?.toolbar = toolbar
-            
+        toolbar = NSToolbar(identifier: .preferencesToolbar)
+
+        if showToolbarItemsAsSegmentedControl {
+
+            toolbar?.allowsUserCustomization = false
+            toolbar?.autosavesConfiguration = false
+            toolbar?.displayMode = .iconOnly
+
+            setupSegmentedControl()
         }
-        
+        else {
+            toolbar?.allowsUserCustomization = true
+            toolbar?.autosavesConfiguration = true
+        }
+
+        toolbar?.showsBaselineSeparator = showToolbarSeparator
+        toolbar?.delegate = self
+        window?.toolbar = toolbar
     }
     
     fileprivate func setupSegmentedControl() {
@@ -292,7 +291,7 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         segmentedControl?.segmentStyle = .texturedSquare
         segmentedControl?.target = self
         segmentedControl?.action = #selector(CCNPreferencesWindowController.segmentedControlAction(_:))
-        segmentedControl?.identifier = CCNPreferencesToolbarSegmentedControlIdentifier
+        segmentedControl?.identifier = .preferencesToolbarSegmentedControl
         
         if let cell = segmentedControl?.cell as? NSSegmentedCell {
             cell.controlSize = .regular
@@ -305,19 +304,15 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         let segmentWidth = segmentSize.width * vcCount + vcCount + 1.0
         let segmentHeight = segmentSize.height
         segmentedControl?.frame = NSMakeRect(0, 0, segmentWidth, segmentHeight)
-        
-        var i = 0
-        for viewController in viewControllers {
+
+        for (i, viewController) in viewControllers.enumerated() {
             
             segmentedControl?.setLabel(type(of: viewController).preferencesTitle, forSegment: i)
             segmentedControl?.setWidth(segmentSize.width, forSegment: i)
             if let cell = segmentedControl?.cell as? NSSegmentedCell {
-                i += 1;
                 cell.setTag(i, forSegment: i)
             }
-            
         }
-        
     }
     
     fileprivate func maxSegmentSizeForCurrentViewControllers() -> NSSize {
@@ -327,21 +322,22 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         for viewController in viewControllers {
             
             let title = type(of: viewController).preferencesTitle
-            let titleSize = title.size(withAttributes: [NSFontAttributeName: NSFont.systemFont(ofSize: NSFont.systemFontSize(for: .regular))])
+            let titleSize = title.size(withAttributes: [NSAttributedStringKey.font: NSFont.systemFont(ofSize: NSFont.systemFontSize(for: .regular))])
             
             if titleSize.width + CCNPreferencesToolbarSegmentedControlItemInset.width > maxSize.width {
                 let maxWidth = titleSize.width + CCNPreferencesToolbarSegmentedControlItemInset.width
                 let maxHeight = titleSize.height + CCNPreferencesToolbarSegmentedControlItemInset.height
                 maxSize = NSMakeSize(maxWidth, maxHeight)
             }
-            
         }
         
         return maxSize
-        
     }
-    
-    fileprivate func activateViewController(_ viewController: CCNPreferencesWindowControllerProtocol, animate: Bool) {
+
+    /// Default title of the window, used for segmented control mode only.
+    public lazy var defaultWindowTitle: String = NSLocalizedString("CCNPreferencesWindowTitle", value: "Preferences", comment: "Default preferences window title with segmented control in toolbar")
+
+    fileprivate func activateViewController(_ viewController: PreferencesViewController, animate: Bool) {
         
         guard let preferencesViewController = viewController as? NSViewController,
             let window = self.window else { return }
@@ -356,16 +352,15 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         let newWindowFrame = NSMakeRect(NSMinX(currentWindowFrame) + (centerToolbarItems ? deltaX / 2 : 0), NSMinY(currentWindowFrame) + deltaY, NSWidth(frameRectForContentRect), NSHeight(frameRectForContentRect))
         
         if showToolbarItemsAsSegmentedControl {
-            window.title = CCNPreferencesDefaultTitle
-        }
-        else {
+            window.title = defaultWindowTitle
+        } else {
             window.title = type(of: viewController).preferencesTitle
         }
         
         let newView = preferencesViewController.view
         newView.frame.origin = NSMakePoint(0, 0)
         newView.alphaValue = 0.0
-        newView.autoresizingMask = NSAutoresizingMaskOptions()
+        newView.autoresizingMask = NSView.AutoresizingMask()
         
         if let previousViewController = activeViewController as? NSViewController {
             previousViewController.view.removeFromSuperview()
@@ -397,130 +392,126 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         }
     }
     
-    fileprivate func viewControllerWithIdentifier(_ identifier: String) -> CCNPreferencesWindowControllerProtocol? {
+    fileprivate func viewController(toolbarItemIdentifier: NSToolbarItem.Identifier) -> PreferencesViewController? {
 
         return viewControllers
-            .filter({ type(of: $0).preferencesIdentifier == identifier })
+            .filter { identifier(of: $0) == toolbarItemIdentifier }
             .first
     }
     
     // MARK: Toolbar Delegate Protocol
     
-    public func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: String, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-        
-        if itemIdentifier == NSToolbarFlexibleSpaceItemIdentifier {
+    public func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+
+        switch itemIdentifier {
+        case .flexibleSpace:
             return nil
-        }
-        else if itemIdentifier == CCNPreferencesToolbarSegmentedControlIdentifier {
-            
+
+        case .preferencesSegmentedControl:
             let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
             toolbarItem.view = segmentedControl
-            
             return toolbarItem
-            
+
+        default:
+            guard let viewController = viewController(toolbarItemIdentifier: itemIdentifier) else { return nil }
+
+            let viewControllerType = type(of: viewController)
+
+            let toolbarItem = NSToolbarItem(itemIdentifier: viewControllerType.preferencesIdentifier)
+            toolbarItem.label = viewControllerType.preferencesTitle
+            toolbarItem.paletteLabel = viewControllerType.preferencesTitle
+            toolbarItem.image = viewControllerType.preferencesIcon
+            if let tooltip = viewController.preferencesToolTip?() {
+                toolbarItem.toolTip = tooltip
+            }
+            toolbarItem.target = self
+            toolbarItem.action = #selector(CCNPreferencesWindowController.toolbarItemAction(_:))
+
+            return toolbarItem
+        }
+    }
+    
+    public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+
+        if toolbarDefaultItemIdentifiers == nil && viewControllers.count > 0 {
+            toolbarDefaultItemIdentifiers = toolbarItemIdentifiers()
+        }
+        
+        return toolbarDefaultItemIdentifiers ?? []
+    }
+
+    private func toolbarItemIdentifiers() -> [NSToolbarItem.Identifier] {
+
+        var toolbarItemIdentifiers = [NSToolbarItem.Identifier]()
+
+        if showToolbarItemsAsSegmentedControl {
+
+            toolbarItemIdentifiers.append(.flexibleSpace)
+            toolbarItemIdentifiers.append(.preferencesSegmentedControl)
+            toolbarItemIdentifiers.append(.flexibleSpace)
         }
         else {
-            
-            if let viewController = viewControllerWithIdentifier(itemIdentifier) {
 
-                let viewControllerType = type(of: viewController)
-                let identifier = viewControllerType.preferencesIdentifier
-                let label = viewControllerType.preferencesTitle
-                let icon = viewControllerType.preferencesIcon
-                
-                let toolbarItem = NSToolbarItem(itemIdentifier: identifier)
-                toolbarItem.label = label
-                toolbarItem.paletteLabel = label
-                toolbarItem.image = icon
-                if let tooltip = viewController.preferencesToolTip?() {
-                    toolbarItem.toolTip = tooltip
-                }
-                toolbarItem.target = self
-                toolbarItem.action = #selector(CCNPreferencesWindowController.toolbarItemAction(_:))
-                
-                return toolbarItem
-                
+            if centerToolbarItems {
+                toolbarItemIdentifiers.append(.flexibleSpace)
             }
-            
+
+            for viewController in viewControllers {
+                toolbarItemIdentifiers.append(identifier(of: viewController))
+            }
+
+            if centerToolbarItems {
+                toolbarItemIdentifiers.append(.flexibleSpace)
+            }
         }
-        
-        return nil
-        
+
+        return toolbarItemIdentifiers
     }
     
-    public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
-        
-        if toolbarDefaultItemIdentifiers == nil && viewControllers.count > 0 {
-            
-            toolbarDefaultItemIdentifiers = [String]()
-            
-            if showToolbarItemsAsSegmentedControl {
-                
-                toolbarDefaultItemIdentifiers?.append(NSToolbarFlexibleSpaceItemIdentifier)
-                toolbarDefaultItemIdentifiers?.append(CCNPreferencesToolbarSegmentedControlIdentifier)
-                toolbarDefaultItemIdentifiers?.append(NSToolbarFlexibleSpaceItemIdentifier)
-                
-            }
-            else {
-                
-                if centerToolbarItems {
-                    toolbarDefaultItemIdentifiers?.append(NSToolbarFlexibleSpaceItemIdentifier)
-                }
-                
-                for viewController in viewControllers {
-                    toolbarDefaultItemIdentifiers?.append(type(of: viewController).preferencesIdentifier)
-                }
-                
-                if centerToolbarItems {
-                    toolbarDefaultItemIdentifiers?.append(NSToolbarFlexibleSpaceItemIdentifier)
-                }
-                
-            }
-            
-        }
-        
-        return toolbarDefaultItemIdentifiers!
-        
-    }
-    
-    public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         
         return toolbarDefaultItemIdentifiers(toolbar)
-        
     }
     
-    public func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    public func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         
         return toolbarDefaultItemIdentifiers(toolbar)
-        
     }
     
-    func toolbarItemAction(_ toolbarItem: NSToolbarItem) {
-        
-        guard let activeViewController = activeViewController,
-            type(of: activeViewController).preferencesIdentifier != toolbarItem.itemIdentifier,
-            let viewController = viewControllerWithIdentifier(toolbarItem.itemIdentifier)
-            else { return }
+    @objc func toolbarItemAction(_ toolbarItem: NSToolbarItem) {
+
+        guard !isActiveViewController(toolbarItemIdentifier: toolbarItem.itemIdentifier) else { return }
+        guard let viewController = viewController(toolbarItemIdentifier: toolbarItem.itemIdentifier) else { return }
 
         activateViewController(viewController, animate: true)
-        
     }
-    
-    func segmentedControlAction(_ control: NSSegmentedControl) {
+
+    @objc func segmentedControlAction(_ control: NSSegmentedControl) {
         
-        guard let cell = control.cell as? NSSegmentedCell,
-            let activeViewController = self.activeViewController
-            else { return }
+        guard let cell = control.cell as? NSSegmentedCell else { return }
             
         let viewController = viewControllers[cell.tag(forSegment: control.selectedSegment)]
             
-        guard type(of: activeViewController).preferencesIdentifier != type(of: viewController).preferencesIdentifier
-            else { return }
+        guard !isActiveViewController(viewController: viewController) else { return }
 
         activateViewController(viewController, animate: true)
-
     }
-    
+
+    private func isActiveViewController(viewController: PreferencesViewController) -> Bool {
+
+        return isActiveViewController(toolbarItemIdentifier: identifier(of: viewController))
+    }
+
+    private func isActiveViewController(toolbarItemIdentifier: NSToolbarItem.Identifier) -> Bool {
+
+        guard let activeViewController = activeViewController else { return false }
+
+        return identifier(of: activeViewController) == toolbarItemIdentifier
+    }
+}
+
+func identifier(of viewController: PreferencesViewController) -> NSToolbarItem.Identifier {
+    return type(of: viewController).preferencesIdentifier
 }
 
 // MARK: - Preferences Window
@@ -528,7 +519,7 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
 ///
 ///  A preferences window.
 ///
-class CCNPreferencesWindow : NSWindow {
+internal class PreferencesWindow: NSWindow {
     
     
     ///
@@ -540,11 +531,11 @@ class CCNPreferencesWindow : NSWindow {
     ///     - backing: The buffer type.
     ///     - defer
     ///
-    override init(contentRect: NSRect, styleMask style: NSWindowStyleMask, backing bufferingType: NSBackingStoreType, defer flag: Bool) {
+    override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing bufferingType: NSWindow.BackingStoreType, defer flag: Bool) {
         
         super.init(contentRect: contentRect, styleMask: style, backing: bufferingType, defer:flag)
         
-        setFrameAutosaveName(CCNPreferencesWindowFrameAutoSaveName)
+        setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: CCNPreferencesWindowFrameAutoSaveName))
         setFrameFrom(CCNPreferencesWindowFrameAutoSaveName)
     }
 
