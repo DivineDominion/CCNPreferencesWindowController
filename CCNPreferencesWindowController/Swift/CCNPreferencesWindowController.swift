@@ -176,11 +176,10 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
     
     // MARK: Show & Hide Preferences Window
 
-    public func showPreferencesWindow<T : CCNPreferencesWindowControllerProtocol>(selectedPreferencesOfType preferencesType: T.Type) {
+    public func showPreferencesWindow(preferencesIdentifier: String) {
 
-        let viewController = viewControllerWithIdentifier(preferencesType.preferencesIdentifier)
+        let viewController = viewControllerWithIdentifier(preferencesIdentifier)
         showPreferencesWindow(selectViewController: viewController)
-
     }
 
     ///
@@ -193,8 +192,9 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         
         guard let window = window else { preconditionFailure("window not set up") }
 
-        if window.isVisible {
+        guard !window.isVisible else {
             showWindow(self)
+            selectInitialPreferencesViewController(selectViewController: selectedViewController)
             return
         }
 
@@ -202,16 +202,25 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         showWindow(self)
         window.makeKeyAndOrderFront(self)
         NSApplication.shared().activate(ignoringOtherApps: true)
+
+        selectInitialPreferencesViewController(selectViewController: selectedViewController)
+
+        window.center()
+        window.alphaValue = 1.0
         
-        if let toolbar = window.toolbar {
-            
+    }
+
+    private func selectInitialPreferencesViewController(selectViewController selectedViewController: CCNPreferencesWindowControllerProtocol? = nil) {
+
+        if let toolbar = window?.toolbar {
+
             if showToolbarItemsAsSegmentedControl {
                 segmentedControl?.selectSegment(withTag: 0)
             } else if let toolbarDefaultItemIdentifiers = self.toolbarDefaultItemIdentifiers,
                 toolbarDefaultItemIdentifiers.count > 0 {
                 toolbar.selectedItemIdentifier = toolbarDefaultItemIdentifiers[(centerToolbarItems ? 1 : 0)]
             }
-            
+
         }
 
         let initialViewController: CCNPreferencesWindowControllerProtocol = {
@@ -228,9 +237,6 @@ public class CCNPreferencesWindowController : NSWindowController, NSToolbarDeleg
         }()
 
         activateViewController(initialViewController, animate: false)
-        window.center()
-        window.alphaValue = 1.0
-        
     }
 
 
