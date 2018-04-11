@@ -8,15 +8,15 @@
 
 import Cocoa
 
-class AdvancedPreferencesController: NSViewController, CCNPreferencesWindowControllerProtocol {
+class AdvancedPreferencesController: NSViewController, PreferencesViewController {
     
     convenience init() {
         
-        self.init(nibName: "AdvancedPreferencesController", bundle: nil)
+        self.init(nibName: NSNib.Name(rawValue: "AdvancedPreferencesController"), bundle: nil)
         
     }
     
-    override init!(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
         
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
@@ -31,14 +31,14 @@ class AdvancedPreferencesController: NSViewController, CCNPreferencesWindowContr
     // MARK: - Preferences Panel Protocol
     
     static var preferencesIcon: NSImage {
-
-        return NSImage(named: NSImageNameAdvanced)!
+        
+        return NSImage(named: NSImage.Name.advanced)!
         
     }
     
-    static var preferencesIdentifier: String {
+    static var preferencesIdentifier: NSToolbarItem.Identifier {
         
-        return "Advanced"
+        return .init(rawValue: "Advanced")
         
     }
     

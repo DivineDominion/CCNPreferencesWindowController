@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50765476207E29160090D5D2 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50765474207E29150090D5D2 /* PreferencesViewController.swift */; };
+		50765477207E29160090D5D2 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50765475207E29160090D5D2 /* PreferencesWindowController.swift */; };
 		DFBDEA6C1C63CD6200FA47BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBDEA6B1C63CD6200FA47BF /* AppDelegate.swift */; };
 		DFBDEA711C63CD6200FA47BF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBDEA6F1C63CD6200FA47BF /* MainMenu.xib */; };
 		DFBDEA811C63CEAB00FA47BF /* GeneralPreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBDEA7D1C63CEAB00FA47BF /* GeneralPreferencesController.swift */; };
 		DFBDEA821C63CEAB00FA47BF /* GeneralPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBDEA7E1C63CEAB00FA47BF /* GeneralPreferencesController.xib */; };
 		DFBDEA831C63CEAB00FA47BF /* AdvancedPreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBDEA7F1C63CEAB00FA47BF /* AdvancedPreferencesController.swift */; };
 		DFBDEA841C63CEAB00FA47BF /* AdvancedPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFBDEA801C63CEAB00FA47BF /* AdvancedPreferencesController.xib */; };
-		FDADE0DB1CAB02DF003394C5 /* CCNPreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDADE0D71CAB02DF003394C5 /* CCNPreferencesWindowController.swift */; };
-		FDADE0DC1CAB02DF003394C5 /* CCNPreferencesWindowControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDADE0D91CAB02DF003394C5 /* CCNPreferencesWindowControllerProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50765474207E29150090D5D2 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesViewController.swift; path = Swift/PreferencesViewController.swift; sourceTree = "<group>"; };
+		50765475207E29160090D5D2 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesWindowController.swift; path = Swift/PreferencesWindowController.swift; sourceTree = "<group>"; };
 		DFBDEA681C63CD6200FA47BF /* PreferencesControllerTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PreferencesControllerTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFBDEA6B1C63CD6200FA47BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFBDEA701C63CD6200FA47BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -26,8 +28,6 @@
 		DFBDEA7E1C63CEAB00FA47BF /* GeneralPreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GeneralPreferencesController.xib; path = Panels/GeneralPreferencesController.xib; sourceTree = "<group>"; };
 		DFBDEA7F1C63CEAB00FA47BF /* AdvancedPreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdvancedPreferencesController.swift; path = Panels/AdvancedPreferencesController.swift; sourceTree = "<group>"; };
 		DFBDEA801C63CEAB00FA47BF /* AdvancedPreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AdvancedPreferencesController.xib; path = Panels/AdvancedPreferencesController.xib; sourceTree = "<group>"; };
-		FDADE0D71CAB02DF003394C5 /* CCNPreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCNPreferencesWindowController.swift; path = Swift/CCNPreferencesWindowController.swift; sourceTree = "<group>"; };
-		FDADE0D91CAB02DF003394C5 /* CCNPreferencesWindowControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCNPreferencesWindowControllerProtocol.swift; path = Swift/CCNPreferencesWindowControllerProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +92,8 @@
 		FDADE0D41CAB02DF003394C5 /* CCNPreferencesWindowController */ = {
 			isa = PBXGroup;
 			children = (
-				FDADE0D71CAB02DF003394C5 /* CCNPreferencesWindowController.swift */,
-				FDADE0D91CAB02DF003394C5 /* CCNPreferencesWindowControllerProtocol.swift */,
+				50765474207E29150090D5D2 /* PreferencesViewController.swift */,
+				50765475207E29160090D5D2 /* PreferencesWindowController.swift */,
 			);
 			name = CCNPreferencesWindowController;
 			path = ../CCNPreferencesWindowController;
@@ -126,12 +126,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Bruno Vandekerkhove";
 				TargetAttributes = {
 					DFBDEA671C63CD6200FA47BF = {
 						CreatedOnToolsVersion = 7.2;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0930;
 					};
 				};
 			};
@@ -173,9 +173,9 @@
 			files = (
 				DFBDEA811C63CEAB00FA47BF /* GeneralPreferencesController.swift in Sources */,
 				DFBDEA831C63CEAB00FA47BF /* AdvancedPreferencesController.swift in Sources */,
-				FDADE0DC1CAB02DF003394C5 /* CCNPreferencesWindowControllerProtocol.swift in Sources */,
+				50765477207E29160090D5D2 /* PreferencesWindowController.swift in Sources */,
 				DFBDEA6C1C63CD6200FA47BF /* AppDelegate.swift in Sources */,
-				FDADE0DB1CAB02DF003394C5 /* CCNPreferencesWindowController.swift in Sources */,
+				50765476207E29160090D5D2 /* PreferencesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,14 +201,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -247,14 +255,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -286,7 +302,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cocoanaut.PreferencesControllerTest-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -298,7 +314,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cocoanaut.PreferencesControllerTest-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

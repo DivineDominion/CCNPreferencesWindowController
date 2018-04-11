@@ -8,17 +8,17 @@
 
 import Cocoa
 
-class GeneralPreferencesController: NSViewController, CCNPreferencesWindowControllerProtocol {
+class GeneralPreferencesController: NSViewController, PreferencesViewController {
     
     convenience init() {
         
-        self.init(nibName: "GeneralPreferencesController", bundle: nil)
+        self.init(nibName: NSNib.Name(rawValue: "GeneralPreferencesController"), bundle: nil)
         
         self.loadView()
         
     }
     
-    override init!(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
         
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
@@ -34,13 +34,13 @@ class GeneralPreferencesController: NSViewController, CCNPreferencesWindowContro
     
     static var preferencesIcon: NSImage {
         
-        return NSImage(named: NSImageNamePreferencesGeneral)!
+        return NSImage(named: NSImage.Name.preferencesGeneral)!
         
     }
     
-    static var preferencesIdentifier: String {
+    static var preferencesIdentifier: NSToolbarItem.Identifier {
         
-        return "General"
+        return .init(rawValue: "General")
         
     }
     

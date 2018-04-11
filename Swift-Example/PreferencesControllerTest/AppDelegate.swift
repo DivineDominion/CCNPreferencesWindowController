@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Window/View Controllers
     fileprivate let generalController = GeneralPreferencesController()
     fileprivate let advancedController = AdvancedPreferencesController()
-    fileprivate var preferencesController = CCNPreferencesWindowController()
+    fileprivate var preferencesController = PreferencesWindowController()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
        
