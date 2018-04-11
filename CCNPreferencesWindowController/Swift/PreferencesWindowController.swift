@@ -290,7 +290,7 @@ public class PreferencesWindowController : NSWindowController, NSToolbarDelegate
         segmentedControl?.segmentCount = viewControllers.count
         segmentedControl?.segmentStyle = .texturedSquare
         segmentedControl?.target = self
-        segmentedControl?.action = #selector(CCNPreferencesWindowController.segmentedControlAction(_:))
+        segmentedControl?.action = #selector(PreferencesWindowController.segmentedControlAction(_:))
         segmentedControl?.identifier = .preferencesToolbarSegmentedControl
         
         if let cell = segmentedControl?.cell as? NSSegmentedCell {
@@ -342,7 +342,15 @@ public class PreferencesWindowController : NSWindowController, NSToolbarDelegate
         guard let preferencesViewController = viewController as? NSViewController,
             let window = self.window else { return }
 
-        toolbar?.selectedItemIdentifier = type(of: viewController).preferencesIdentifier
+        if showToolbarItemsAsSegmentedControl {
+            let tag = viewControllers.enumerated()
+                .first(where: { $0.element === viewController })
+                .map { $0.offset }
+                ?? 0
+            segmentedControl?.selectSegment(withTag: tag)
+        } else {
+            toolbar?.selectedItemIdentifier = type(of: viewController).preferencesIdentifier
+        }
 
         let currentWindowFrame = window.frame
         let frameRectForContentRect = window.frameRect(forContentRect: preferencesViewController.view.frame)
@@ -425,7 +433,7 @@ public class PreferencesWindowController : NSWindowController, NSToolbarDelegate
                 toolbarItem.toolTip = tooltip
             }
             toolbarItem.target = self
-            toolbarItem.action = #selector(CCNPreferencesWindowController.toolbarItemAction(_:))
+            toolbarItem.action = #selector(PreferencesWindowController.toolbarItemAction(_:))
 
             return toolbarItem
         }
